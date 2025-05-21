@@ -1,0 +1,83 @@
+﻿@model L.ViewModels.RegistroViewModel
+
+@{
+    ViewData["Title"] = "Crear cuenta";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .google-style-container {
+        max-width: 400px;
+        margin: 50px auto;
+        border: 1px solid #ddd;
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.05);
+        background-color: white;
+    }
+
+        .google-style-container h2 {
+            text-align: center;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            color: #202124;
+        }
+
+    .form-label {
+        font-weight: 500;
+        color: #202124;
+    }
+
+    .btn-google {
+        background-color: #1a73e8;
+        color: white;
+        width: 100%;
+    }
+
+    .form-text {
+        font-size: 0.875rem;
+        color: #5f6368;
+    }
+</style>
+
+<div class="google-style-container">
+    <h2>Crear tu cuenta</h2>
+
+    <form asp-action="Registro" method="post">
+        <div class="mb-3">
+            <label asp-for="Nombre" class="form-label"></label>
+            <input asp-for="Nombre" class="form-control" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Correo" class="form-label"></label>
+            <input asp-for="Correo" type="email" class="form-control" />
+            <span asp-validation-for="Correo" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Contrasena" class="form-label"></label>
+            <input asp-for="Contrasena" type="password" class="form-control" />
+            <span asp-validation-for="Contrasena" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ConfirmarContrasena" class="form-label"></label>
+            <input asp-for="ConfirmarContrasena" type="password" class="form-control" />
+            <span asp-validation-for="ConfirmarContrasena" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-google mt-3">Registrarse</button>
+    </form>
+
+    <div class="text-center mt-3">
+        <small class="form-text">¿Ya tienes una cuenta? <a asp-controller="Usuarios" asp-action="Login">Inicia sesión</a></small>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,63 @@
+﻿@model List<L.Models.Libro>
+
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<style>
+    .book-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px; /* Aumentamos el espacio entre los libros */
+        padding: 20px;
+    }
+
+    .book-item {
+        text-align: center;
+        width: 160px;
+        transition: transform 0.2s ease;
+    }
+
+        .book-item:hover {
+            transform: scale(1.05);
+        }
+
+    .book-image {
+        width: 150px;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .book-item h3 {
+        font-size: 16px;
+        margin-top: 10px;
+        color: #333;
+    }
+</style>
+
+<div class="text-center">
+    <h1 class="display-4">Libros Disponibles</h1>
+</div>
+
+@if (Model != null && Model.Count > 0)
+{
+    <div class="book-list">
+        @foreach (var libro in Model)
+        {
+            <div class="book-item">
+                <a asp-controller="Libros" asp-action="Vista" asp-route-id="@libro.LibroId">
+                    <img src="@libro.UrlImagen" alt="@libro.Titulo" class="book-image" />
+                </a>
+                <h3>@libro.Titulo</h3>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p class="text-center mt-4">No hay libros registrados aún.</p>
+}
+

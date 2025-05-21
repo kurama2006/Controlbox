@@ -1,0 +1,149 @@
+﻿@model L.Models.Libro
+
+@{
+    ViewData["Title"] = "Detalles del Libro";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <img src="@Model.UrlImagen" alt="@Model.Titulo" class="img-fluid rounded shadow portada-libro" />
+        </div>
+        <div class="col-md-8">
+            <h2>@Model.Titulo</h2>
+            <p><strong>Autor:</strong> @Model.Autor</p>
+            <p><strong>Categoría:</strong> @Model.Categoria?.Nombre</p>
+            <p><strong>Publicado el:</strong> @Model.FechaPublicacion?.ToString("dd/MM/yyyy")</p>
+            <p><strong>Resumen:</strong> @Model.Resumen</p>
+
+            @if (Model.Reseña != null && Model.Reseña.Any())
+            {
+                double? averageRating = Model.Reseña.Average(r => (double?)r.Calificacion);
+                int roundedAverageRating = (int)Math.Round(averageRating ?? 0);
+
+                <p>
+                    <strong>Calificación Promedio:</strong>
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        if (i <= roundedAverageRating)
+                        {
+                            <span class="fa fa-star checked"></span>
+                        }
+                        else
+                        {
+                            <span class="fa fa-star"></span>
+                        }
+                    }
+                    (@averageRating?.ToString("0.0") de 5 basado en @Model.Reseña.Count() reseñas)
+                </p>
+            }
+            else
+            {
+                <p>No hay calificación para este libro aún.</p>
+            }
+        </div>
+    </div>
+
+    <hr />
+
+    <!-- Formulario para crear reseña -->
+    <h4>Escribe tu reseña</h4>
+    <form asp-controller="Libros" asp-action="Vista" method="post">
+        <input type="hidden" name="LibroId" value="@Model.LibroId" />
+
+        <div class="form-group">
+            <label for="Contenido">Contenido</label>
+            <textarea name="Contenido" class="form-control" required></textarea>
+        </div>
+
+        <div class="form-group mt-2">
+            <label for="Calificacion">Calificación</label>
+            <div id="starRating">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    <span class="fa fa-star star" data-value="@i"></span>
+                }
+            </div>
+            <input type="hidden" name="Calificacion" id="Calificacion" required />
+        </div>
+        <div class="mt-3">
+            <button type="submit" class="btn btn-success">Publicar Reseña</button>
+        </div>
+    </form>
+
+    <hr />
+
+    <!-- Reseñas existentes -->
+    <h4>Reseñas</h4>
+    @if (Model.Reseña != null && Model.Reseña.Any())
+    {
+        foreach (var resena in Model.Reseña)
+        {
+            <div class="card my-2">
+                <div class="card-body">
+                    <p class="mb-1"><strong>@resena.Usuario?.Nombre:</strong> @resena.Comentario</p>
+                    <p class="text-muted mb-0">
+                        Calificación:
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            if (i <= resena.Calificacion)
+                            {
+                                <span class="fa fa-star checked"></span>
+                            }
+                            else
+                            {
+                                <span class="fa fa-star"></span>
+                            }
+                        }
+                    </p>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <p>No hay reseñas para este libro aún.</p>
+    }
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+    .fa-star {
+        font-size: 22px;
+        color: #ccc;
+        cursor: pointer;
+    }
+
+    .checked {
+        color: gold;
+    }
+
+    .portada-libro {
+        width: 250px;
+        height: 350px;
+        object-fit: cover;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const stars = document.querySelectorAll('.star');
+        const ratingInput = document.getElementById('Calificacion');
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const rating = parseInt(star.getAttribute('data-value'));
+                ratingInput.value = rating;
+
+                // Limpiar todas las estrellas
+                stars.forEach(s => s.classList.remove('checked'));
+
+                // Activar las estrellas seleccionadas
+                for (let i = 0; i < rating; i++) {
+                    stars[i].classList.add('checked');
+                }
+            });
+        });
+    });
+</script>

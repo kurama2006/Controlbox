@@ -1,0 +1,66 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Panel de Administración</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .sidebar {
+            min-height: 100vh;
+        }
+
+            .sidebar .nav-link.active {
+                background-color: #0d6efd;
+                color: #fff !important;
+            }
+
+            .sidebar .nav-link:hover {
+                background-color: #0b5ed7;
+                color: #fff !important;
+            }
+    </style>
+    @RenderSection("Styles", required: false) <!-- Línea corregida -->
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block bg-dark text-white sidebar p-3">
+                <h4 class="text-center mb-4">Admin Panel</h4>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-controller="Home" asp-action="Index">🏠 Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-controller="Libros" asp-action="Index">📚 Libros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-controller="Categorias" asp-action="Index">🗂 Categorías</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-controller="Usuarios" asp-action="Index">👤 Usuarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-controller="Reseña" asp-action="Index">📝 Reseña</a>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <a class="btn btn-sm btn-light w-100" asp-controller="Usuarios" asp-action="Logout">Cerrar sesión</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Contenido principal -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pt-4">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

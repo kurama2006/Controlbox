@@ -1,0 +1,9 @@
+﻿@{
+    var rol = Context.Session.GetString("RolNombre");
+    Layout = "_Layout"; // Layout por defecto
+
+    if (rol == "Admin")
+    {
+        Layout = "_LayoutAdmin"; // Layout especial para administradores
+    }
+}

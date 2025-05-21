@@ -1,0 +1,116 @@
+﻿@model L.Models.Usuario
+
+@{
+    ViewData["Title"] = "Detalles de Usuario";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles {
+    <style>
+        .detail-card {
+            max-width: 800px;
+            margin: 2rem auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .card-title {
+            margin: 0;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .detail-item {
+            padding: 1.5rem;
+            border-bottom: 2px solid #f8f9fa;
+        }
+
+        .detail-label {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-value {
+            color: #495057;
+            font-size: 1.1rem;
+        }
+
+        .password-mask {
+            letter-spacing: 0.2em;
+            font-size: 1.2rem;
+        }
+
+        .action-buttons {
+            padding: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            border-top: 2px solid #f8f9fa;
+        }
+
+        @@media (max-width: 768px) {
+            .detail-card {
+                margin: 1rem;
+            }
+
+            .card-title {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+}
+
+<div class="detail-card card">
+    <div class="card-header">
+        <h2 class="card-title">
+            <i class="fas fa-user-circle"></i>@Model.Nombre
+        </h2>
+    </div>
+
+    <div class="card-body">
+        <div class="detail-item">
+            <div class="detail-label">Correo electrónico</div>
+            <div class="detail-value">@Model.Correo</div>
+        </div>
+
+        <div class="detail-item">
+            <div class="detail-label">Contraseña</div>
+            <div class="detail-value password-mask">••••••••</div>
+        </div>
+
+        <div class="detail-item">
+            <div class="detail-label">Fecha de Registro</div>
+            <div class="detail-value">@Model.FechaRegistro</div>
+        </div>
+
+        <div class="detail-item">
+            <div class="detail-label">Rol</div>
+            <div class="detail-value">
+                <span class="badge bg-primary">@Model.Rol?.Nombre</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <a asp-action="Edit" asp-route-id="@Model.UsuarioId" class="btn btn-primary">
+            <i class="fas fa-edit me-2"></i>Editar
+        </a>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Volver al Listado
+        </a>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+}

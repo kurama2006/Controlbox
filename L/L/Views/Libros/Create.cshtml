@@ -1,0 +1,72 @@
+﻿@model L.Models.Libro
+
+@{
+    ViewData["Title"] = "Agregar Nuevo Libro";
+    // Asegúrate de que NO haya una línea como esta:
+    // Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="display-4">Agregar Nuevo Libro</h2>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Título -->
+            <div class="form-group mb-3">
+                <label asp-for="Titulo" class="form-label">Título</label>
+                <input asp-for="Titulo" class="form-control" />
+                <span asp-validation-for="Titulo" class="text-danger"></span>
+            </div>
+
+            <!-- Autor -->
+            <div class="form-group mb-3">
+                <label asp-for="Autor" class="form-label">Autor</label>
+                <input asp-for="Autor" class="form-control" />
+                <span asp-validation-for="Autor" class="text-danger"></span>
+            </div>
+
+            <!-- Categoría -->
+            <div class="form-group mb-3">
+                <label asp-for="CategoriaId" class="form-label">Categoría</label>
+                <select asp-for="CategoriaId" class="form-control" asp-items="ViewBag.CategoriaId">
+                    <option value="">-- Seleccione Categoría --</option>
+                </select>
+                <span asp-validation-for="CategoriaId" class="text-danger"></span>
+            </div>
+
+            <!-- Resumen -->
+            <div class="form-group mb-3">
+                <label asp-for="Resumen" class="form-label">Resumen</label>
+                <textarea asp-for="Resumen" class="form-control"></textarea>
+                <span asp-validation-for="Resumen" class="text-danger"></span>
+            </div>
+
+            <!-- Fecha de publicación -->
+            <div class="form-group mb-3">
+                <label asp-for="FechaPublicacion" class="form-label">Fecha de Publicación</label>
+                <input asp-for="FechaPublicacion" class="form-control" type="date" />
+                <span asp-validation-for="FechaPublicacion" class="text-danger"></span>
+            </div>
+
+            <!-- URL de Imagen -->
+            <div class="form-group mb-4">
+                <label asp-for="UrlImagen" class="form-label">📷 URL de la Imagen</label>
+                <input asp-for="UrlImagen" class="form-control" placeholder="https://ejemplo.com/imagen.jpg" />
+                <span asp-validation-for="UrlImagen" class="text-danger"></span>
+            </div>
+
+            <!-- Botones -->
+            <button type="submit" class="btn btn-primary me-2">Guardar</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

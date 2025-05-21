@@ -1,0 +1,107 @@
+﻿@model L.Models.Reseña
+
+@{
+    ViewData["Title"] = "Eliminar Reseña";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-lg border-danger">
+        <div class="card-header bg-danger text-white">
+            <h2 class="mb-0"><i class="bi bi-exclamation-triangle-fill"></i> Eliminar Reseña</h2>
+        </div>
+
+        <div class="card-body">
+            <h3 class="text-danger mb-4">¿Estás seguro que deseas eliminar esta reseña?</h3>
+
+            <div class="row">
+                <!-- Columna Izquierda -->
+                <div class="col-md-6">
+                    <div class="alert alert-danger">
+                        <h5 class="alert-heading"><i class="bi bi-info-circle"></i> Esta acción es irreversible</h5>
+                        <p class="mb-0">Toda la información relacionada será eliminada permanentemente.</p>
+                    </div>
+
+                    <dl class="row detail-list">
+                        <dt class="col-sm-4">Libro:</dt>
+                        <dd class="col-sm-8 text-truncate">@Model.Libro?.Titulo</dd>
+
+                        <dt class="col-sm-4">Usuario:</dt>
+                        <dd class="col-sm-8">@Model.Usuario?.Nombre</dd>
+
+                        <dt class="col-sm-4">Calificación:</dt>
+                        <dd class="col-sm-8">
+                            @for (int i = 0; i < Model.Calificacion; i++)
+                            {
+                                <i class="bi bi-star-fill text-warning"></i>
+                            }
+                        </dd>
+                    </dl>
+                </div>
+
+                <!-- Columna Derecha -->
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0"><i class="bi bi-chat-text"></i> Comentario</h5>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">@Model.Comentario</p>
+                        </div>
+                    </div>
+                        <dt class="col-sm-4">Creada el:</dt>
+                        <input asp-for="FechaReseña" class="form-control" type="date" />
+
+                    </dl>
+                </div>
+            </div>
+
+            <form asp-action="Delete" class="mt-4">
+                <input type="hidden" asp-for="ReseñaId" />
+
+                <div class="d-flex justify-content-end gap-3">
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Volver al listado
+                    </a>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash3-fill"></i> Confirmar Eliminación
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .card {
+            border-radius: 15px;
+        }
+
+        .detail-list dt {
+            color: #6c757d;
+            font-weight: 500;
+        }
+
+        .detail-list dd {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .border-danger {
+            border-width: 2px;
+        }
+
+        .card-header h2 {
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .alert {
+            border-left: 4px solid #dc3545;
+        }
+
+        .text-truncate {
+            max-width: 250px;
+        }
+    </style>
+}

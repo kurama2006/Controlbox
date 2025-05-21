@@ -1,0 +1,194 @@
+﻿@model L.Models.Usuario
+
+@{
+    ViewData["Title"] = "Editar Usuario";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles {
+    <style>
+        .edit-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .edit-header {
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .edit-title {
+            color: #2c3e50;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .control-label {
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+            .form-control:focus {
+                border-color: #3498db;
+                box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+            }
+
+        .input-group {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+            .input-group .form-control {
+                border-radius: 8px 0 0 8px;
+            }
+
+            .input-group button {
+                border-left: none;
+                border-radius: 0 8px 8px 0;
+            }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+            .btn-primary:hover {
+                background: #2980b9;
+                transform: translateY(-1px);
+            }
+
+        .btn-secondary {
+            background: #6c757d;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .text-danger {
+            color: #e74c3c;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        @@media (max-width: 768px) {
+            .edit-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+}
+
+<div class="edit-container">
+    <div class="edit-header">
+        <h1 class="edit-title">
+            <i class="fas fa-user-edit me-2"></i>Editar Usuario
+        </h1>
+    </div>
+
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="UsuarioId" />
+
+        <div class="form-group">
+            <label asp-for="Nombre" class="control-label"></label>
+            <input asp-for="Nombre" class="form-control" placeholder="Nombre completo" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Correo" class="control-label"></label>
+            <input asp-for="Correo" type="email" class="form-control" placeholder="ejemplo@dominio.com" />
+            <span asp-validation-for="Correo" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Contrasena" class="control-label"></label>
+            <div class="input-group">
+                <!-- Cambiar type a "password" -->
+                <input asp-for="Contrasena" type="password/text"
+                       class="form-control"
+                       id="passwordInput"
+                       placeholder="••••••••" />
+                <button type="button"
+                        class="btn btn-outline-secondary"
+                        id="togglePassword">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+            <span asp-validation-for="Contrasena" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="RolId" class="control-label"></label>
+            <select asp-for="RolId" class="form-control" asp-items="@(ViewData["RolId"] as SelectList)">
+                <option value="">Seleccionar rol</option>
+            </select>
+            <span asp-validation-for="RolId" class="text-danger"></span>
+        </div>
+
+        <div class="action-buttons">
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Volver al listado
+            </a>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save me-2"></i>Guardar cambios
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+<script>
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const passwordInput = document.getElementById('passwordInput');
+        const icon = this.querySelector('i');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    });
+</script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+}

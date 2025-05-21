@@ -1,0 +1,96 @@
+﻿@model IEnumerable<L.Models.Libro>
+
+@{
+    ViewData["Title"] = "Explorar Libros";
+}
+
+<h2>Explorar Libros</h2>
+
+<form asp-action="IndexUser" method="get" class="mb-4">
+    <input type="text" name="searchString" placeholder="Buscar por título o autor" class="form-control mb-2" />
+    <select name="categoriaId" class="form-control mb-2">
+        <option value="">Todas las categorías</option>
+        @foreach (var cat in (SelectList)ViewData["CategoriaId"])
+        {
+            <option value="@cat.Value">@cat.Text</option>
+        }
+    </select>
+    <button type="submit" class="btn btn-primary">Buscar</button>
+</form>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 mb-4">
+            @* Envuelve toda la tarjeta con un enlace *@
+            <a asp-controller="Libros" asp-action="Vista" asp-route-id="@item.LibroId" class="card-link-wrapper">
+                <div class="card h-100">
+                    <img src="@item.UrlImagen" class="card-img-top" alt="@item.Titulo" style="height: 250px; object-fit: cover;" />
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Titulo</h5>
+                        <p class="card-text"><strong>Autor:</strong> @item.Autor</p>
+                        <p class="card-text text-muted">@item.Categoria?.Nombre</p>
+
+                        <p class="card-text">
+                            <strong>Calificación:</strong>
+                            @if (item.Reseña != null && item.Reseña.Any())
+                            {
+                                double? averageRating = item.Reseña.Average(r => (double?)r.Calificacion);
+                                int roundedAverageRating = (int)Math.Round(averageRating ?? 0);
+
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    if (i <= roundedAverageRating)
+                                    {
+                                        <span class="fa fa-star checked"></span>
+                                    }
+                                    else
+                                    {
+                                        <span class="fa fa-star"></span>
+                                    }
+                                }
+                                <small class="text-muted">(@averageRating?.ToString("0.0"))</small>
+                            }
+                            else
+                            {
+                                <small class="text-muted">Sin reseñas</small>
+                            }
+                        </p>
+                        @* Quita el botón "Ver Detalles" ya que toda la tarjeta será un enlace *@
+                        @* <a asp-controller="Libros" asp-action="Vista" asp-route-id="@item.LibroId" class="btn btn-sm btn-outline-primary">Ver Detalles</a> *@
+                    </div>
+                </div>
+            </a>
+        </div>
+    }
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+    .fa-star {
+        font-size: 18px;
+        color: #ccc;
+    }
+
+    .checked {
+        color: gold;
+    }
+
+    .card-link-wrapper {
+        text-decoration: none; /* Quita el subrayado del enlace */
+        color: inherit; /* Hereda el color del texto para que no se vea como enlace */
+        display: block; /* Para que ocupe todo el espacio del col-md-4 */
+        height: 100%; /* Asegura que el enlace ocupe toda la altura del col-md-4 */
+    }
+
+    .card {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Animación suave al pasar el ratón */
+        height: 100%; /* Asegura que la tarjeta ocupe toda la altura disponible */
+    }
+
+    .card:hover {
+        transform: translateY(-5px); /* Pequeño efecto de elevación al pasar el ratón */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Sombra más pronunciada al pasar el ratón */
+        cursor: pointer; /* Cambia el cursor para indicar que es clicable */
+    }
+</style>

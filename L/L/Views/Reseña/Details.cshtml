@@ -1,0 +1,121 @@
+﻿@model L.Models.Reseña
+
+@{
+    ViewData["Title"] = "Detalles de Reseña";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@section Styles {
+    <style>
+        .detail-card {
+            max-width: 800px;
+            margin: 2rem auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .card-title {
+            margin: 0;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .detail-item {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-label {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-value {
+            color: #495057;
+            font-size: 1.1rem;
+        }
+
+        .rating-stars {
+            font-size: 1.4rem;
+            color: #ffc107;
+            letter-spacing: 0.2rem;
+        }
+
+        .action-buttons {
+            padding: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        @@media (max-width: 768px) {
+            .detail-card {
+                margin: 1rem;
+            }
+
+            .card-title {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+}
+
+<div class="detail-card card">
+    <div class="card-header">
+        <h2 class="card-title">
+            <i class="fas fa-comment-alt"></i>Reseña de @Model.Usuario?.Nombre
+        </h2>
+    </div>
+
+    <div class="card-body">
+        <div class="detail-item">
+            <div class="detail-label">Libro</div>
+            <div class="detail-value">@Model.Libro?.Titulo</div>
+        </div>
+
+        <div class="detail-item">
+            <div class="detail-label">Calificación</div>
+            <div class="detail-value rating-stars">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    <i class="fas @(i <= Model.Calificacion ? "fa-star" : "fa-star-o")"></i>
+                }
+            </div>
+        </div>
+
+        <div class="detail-item">
+            <div class="detail-label">Comentario</div>
+            <div class="detail-value">@Model.Comentario</div>
+        </div>
+
+        <div class="detail-item">
+            <div class="detail-label">Fecha de Reseña</div>
+            <div class="detail-value">
+                @Model.FechaReseña
+            </div>
+        </div>
+    </div>
+
+    <div class="action-buttons">
+        <a asp-action="Edit" asp-route-id="@Model.ReseñaId" class="btn btn-primary">
+            <i class="fas fa-edit me-2"></i>Editar
+        </a>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Volver al Listado
+        </a>
+    </div>
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+}
