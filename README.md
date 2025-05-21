@@ -15,6 +15,8 @@
 
 1. Clona este repositorio:
 
-```bash
-git clone https://github.com/kurama2006/L.git
-cd L
+codigo Proyecto (https://github.com/kurama2006/Controlbox.git)
+
+2. Clona este repositorio de la base de datos:
+base de datos (https://github.com/kurama2006/DB.git)
+
